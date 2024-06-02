@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:shop/controllers/product_details_controller.dart';
 import '../../../controllers/searchControler.dart';
@@ -85,12 +86,17 @@ class _SearchScreenState extends State<SearchScreen> {
                     //   ],
                     // )
                 ),
-                Obx(() => Container(
+                Obx(() => searchScreenController.products.isEmpty? Center(child: Text("Item not found")) : Container(
                   margin: EdgeInsets.only(top: 30),
-                  child: GridView.builder(
+                  child: MasonryGridView.count(
+                    crossAxisCount: 2,
+                    itemCount: searchScreenController.products.length,
+                    mainAxisSpacing: 4,
+                    crossAxisSpacing: 4,
+                  /*GridView.builder(
                     itemCount: searchScreenController.products.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: 4 / 5, crossAxisCount: 2),
+                        childAspectRatio: 4 / 5, crossAxisCount: 2),*/
                     itemBuilder: (context, index) {
                       var product = searchScreenController.products[index];
                       print("===========${searchScreenController.products.length}");

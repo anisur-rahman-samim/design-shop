@@ -65,8 +65,8 @@ class SearchScreenController extends GetxController{
       search_model = Search_model.fromJson(jsonDecode(response.responseJson));
       update();
       if(search_model?.result != null){
-        print("Hello ------- ${search_model?.result?[0].productName}");
-        print("Hello ------- ${search_model?.result?[0].productDescription}");
+     //   print("Hello ------- ${search_model?.result?[0].productName}");
+      //  print("Hello ------- ${search_model?.result?[0].productDescription}");
         products.addAll(search_model!.result!);
       }
 
