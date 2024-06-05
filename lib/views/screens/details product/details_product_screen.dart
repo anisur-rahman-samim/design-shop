@@ -4,11 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:shop/controllers/hive_controller.dart';
 import 'package:shop/controllers/product_details_controller.dart';
 import 'package:shop/models/hive_model.dart';
 import '../../../controllers/searchControler.dart';
+import '../../../main.dart';
 import '../../../utils/app_icons.dart';
 import '../../../utils/app_string.dart';
 import '../../widgets/costom_multiline_text.dart';
@@ -28,16 +30,16 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
   RxBool isInfo = false.obs;
 
   ProductDetailsController productDetailsController =
-      Get.put(ProductDetailsController());
+  Get.put(ProductDetailsController());
 
   FolderCreateDialog folderCreateDialog = FolderCreateDialog();
 
   HiveController hiveController = Get.put(HiveController());
 
   SearchScreenController searchScreenController =
-      Get.put(SearchScreenController());
+  Get.put(SearchScreenController());
 
- /* @override
+  /* @override
   void initState() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -75,30 +77,31 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
             Expanded(
               child: Center(
                   child: PhotoView(
-                imageProvider: NetworkImage(productDetailsController
-                    .productDetails_Model!.data!.attributes!.productImage!),
-                minScale: PhotoViewComputedScale.contained * 0.8,
-                maxScale: PhotoViewComputedScale.covered * 2.0,
-                enableRotation: true,
-                backgroundDecoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-              )),
+                    imageProvider: NetworkImage(productDetailsController
+                        .productDetails_Model!.data!.attributes!.productImage!),
+                    minScale: PhotoViewComputedScale.contained * 0.8,
+                    maxScale: PhotoViewComputedScale.covered * 2.0,
+                    enableRotation: true,
+                    backgroundDecoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                  )),
             ),
             SizedBox(height: 16.h),
             Obx(
-              () => isInfo.value
+                  () =>
+              isInfo.value
                   ? SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 5,
-                            ),
-                          /*  CustomText(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      /*  CustomText(
                                 title:
                                     "Design Name : ${productDetailsController.productDetails_Model!.data!.attributes!.productName!}",
                                 fontSize: 18,
@@ -107,50 +110,52 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                             const SizedBox(
                               height: 4,
                             ),*/
-                            Row(
-                              children: [
-                                CustomText(
-                                    title:
-                                        "Price : ${productDetailsController.productDetails_Model!.data!.attributes!.productPrice!} ",
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xFF54A630)),
-                                SvgPicture.asset(AppIcon.bdTK,
-                                    height: 14.h, color: const Color(0xFF54A630)),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CustomText(
-                                  title: AppString.description,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xFF54A630),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            CustomMultiLineText(
-                              title: productDetailsController
-                                  .productDetails_Model!
-                                  .data!
-                                  .attributes!
-                                  .productDescription![0],
-                            ),
-                            const SizedBox(
-                              height: 14,
-                            ),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          CustomText(
+                              title:
+                              "Price : ${productDetailsController
+                                  .productDetails_Model!.data!.attributes!
+                                  .productPrice!} ",
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF54A630)),
+                          SvgPicture.asset(AppIcon.bdTK,
+                              height: 14.h, color: const Color(0xFF54A630)),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                        ],
                       ),
-                    )
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            title: AppString.description,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xFF54A630),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      CustomMultiLineText(
+                        title: productDetailsController
+                            .productDetails_Model!
+                            .data!
+                            .attributes!
+                            .productDescription![0],
+                      ),
+                      const SizedBox(
+                        height: 14,
+                      ),
+                    ],
+                  ),
+                ),
+              )
                   : SizedBox(),
             ),
             const SizedBox(
@@ -159,13 +164,13 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
           ],
         ),
       ),
-     bottomNavigationBar: BottomNavigationBar(
-         items: [
-           BottomNavigationBarItem(
-             label: "",
-             icon:  IconButton(
-               onPressed: () {
-                 folderCreateDialog.createFolder(
+      bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+              label: "",
+              icon: IconButton(
+                  onPressed: () {
+                    /*  folderCreateDialog.createFolder(
                      context,
                      productDetailsController
                          .productDetails_Model!.data!.attributes!.productName!,
@@ -175,72 +180,76 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                          .productDetails_Model!.data!.attributes!.productPrice!
                          .toString(),
                      productDetailsController.productDetails_Model!.data!
-                         .attributes!.productDescription![0]);
-               },
-               icon: CircleAvatar(
-                   radius: 20.r,
-                   backgroundColor: Colors.black12,
-                   child: const Icon(
-                     Icons.create_new_folder_outlined,
-                     color: Color(0xFF54A630),
-                   ))),),
-           BottomNavigationBarItem(  label: "",icon:  IconButton(
-               onPressed: () {
-                 productDetailsController.downloadImage(
-                     productDetailsController.productDetails_Model!.data!
-                         .attributes!.productImage!);
-               },
-               icon: CircleAvatar(
-                   radius: 20.r,
-                   backgroundColor: Colors.black12,
-                   child: const Icon(
-                     Icons.download_rounded,
-                     color: Color(0xFF54A630),
-                   ))),),
-           BottomNavigationBarItem(  label: "",icon: IconButton(
-               onPressed: () {
-                 NotesModel notesModel = NotesModel(
-                     title: widget.name,
-                     description: productDetailsController
-                         .productDetails_Model!
-                         .data!
-                         .attributes!
-                         .productDescription![0],
-                     image: productDetailsController.productDetails_Model!
-                         .data!.attributes!.productImage!,
-                     price: productDetailsController
-                         .productDetails_Model!.data!.attributes!.productPrice
-                         .toString());
+                         .attributes!.productDescription![0]);*/
+                    _showDialog(context,
+                        productDetailsController.productDetails_Model!.data!
+                            .attributes!.productImage!);
+                  },
+                  icon: CircleAvatar(
+                      radius: 20.r,
+                      backgroundColor: Colors.black12,
+                      child: const Icon(
+                        Icons.create_new_folder_outlined,
+                        color: Color(0xFF54A630),
+                      ))),),
+            BottomNavigationBarItem(label: "", icon: IconButton(
+                onPressed: () {
+                  productDetailsController.downloadImage(
+                      productDetailsController.productDetails_Model!.data!
+                          .attributes!.productImage!);
+                },
+                icon: CircleAvatar(
+                    radius: 20.r,
+                    backgroundColor: Colors.black12,
+                    child: const Icon(
+                      Icons.download_rounded,
+                      color: Color(0xFF54A630),
+                    ))),),
+            BottomNavigationBarItem(label: "", icon: IconButton(
+                onPressed: () {
+                  NotesModel notesModel = NotesModel(
+                      title: widget.name,
+                      description: productDetailsController
+                          .productDetails_Model!
+                          .data!
+                          .attributes!
+                          .productDescription![0],
+                      image: productDetailsController.productDetails_Model!
+                          .data!.attributes!.productImage!,
+                      price: productDetailsController
+                          .productDetails_Model!.data!.attributes!.productPrice
+                          .toString());
 
-                 hiveController.addToCart(notesModel);
-               },
-               icon: CircleAvatar(
-                   radius: 20.r,
-                   backgroundColor: Colors.black12,
-                   child: Obx(() => Icon(
-                     hiveController.isCartAdded.contains(widget.name)
-                         ? Icons.favorite
-                         : Icons.favorite_border,
-                     color: Color(0xFF54A630),
-                   )))),),
-           BottomNavigationBarItem(  label: "",icon:   IconButton(
-               onPressed: () {
-                 if (isInfo.value == true) {
-                   isInfo.value = false;
-                 } else {
-                   isInfo.value = true;
-                 }
-               },
-               icon: CircleAvatar(
-                   radius: 20.r,
-                   backgroundColor: Colors.black12,
-                   child: const Icon(
-                     Icons.info_outline,
-                     color: Color(0xFF54A630),
-                   ))))
-    
-         ]
-     ),
+                  hiveController.addToCart(notesModel);
+                },
+                icon: CircleAvatar(
+                    radius: 20.r,
+                    backgroundColor: Colors.black12,
+                    child: Obx(() =>
+                        Icon(
+                          hiveController.isCartAdded.contains(widget.name)
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: Color(0xFF54A630),
+                        )))),),
+            BottomNavigationBarItem(label: "", icon: IconButton(
+                onPressed: () {
+                  if (isInfo.value == true) {
+                    isInfo.value = false;
+                  } else {
+                    isInfo.value = true;
+                  }
+                },
+                icon: CircleAvatar(
+                    radius: 20.r,
+                    backgroundColor: Colors.black12,
+                    child: const Icon(
+                      Icons.info_outline,
+                      color: Color(0xFF54A630),
+                    ))))
+
+          ]
+      ),
       /*bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: Row(
@@ -324,6 +333,93 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
           ],
         ),
       ),*/
+
+    );
+  }
+
+  void _showDialog(BuildContext context, String imagePath) {
+    final _folderController = TextEditingController();
+    final _noteController = TextEditingController();
+
+    final box = Hive.box<ImageModel>('images');
+    final folders = box.values.map((image) => image.folderName)
+        .toSet()
+        .toList();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Save Image'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Autocomplete<String>(
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  if (textEditingValue.text.isEmpty) {
+                    return const Iterable<String>.empty();
+                  }
+                  return folders.where((folder) =>
+                      folder.toLowerCase().contains(
+                          textEditingValue.text.toLowerCase()));
+                },
+                onSelected: (String selection) {
+                  _folderController.text = selection;
+                },
+                fieldViewBuilder: (context, controller, focusNode,
+                    onEditingComplete) {
+                  return TextField(
+                    controller: controller,
+                    focusNode: focusNode,
+                    onEditingComplete: onEditingComplete,
+                    decoration: InputDecoration(
+                      labelText: 'Folder Name',
+                    ),
+                  );
+                },
+              ),
+              TextField(
+                controller: _noteController,
+                decoration: InputDecoration(labelText: 'Note'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                final folderName = _folderController.text;
+                final note = _noteController.text;
+
+                if (folderName.isNotEmpty && note.isNotEmpty) {
+                  final bool imageExists = box.values.any((image) =>
+                  image.folderName == folderName &&
+                      image.imagePath == imagePath);
+
+                  if (imageExists) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            'This image already exists in the selected folder.'),
+                      ),
+                    );
+                  } else {
+                    final newImage = ImageModel(imagePath, folderName, note);
+                    box.add(newImage);
+                    Navigator.of(context).pop();
+                  }
+                }
+              },
+              child: Text('Save'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
