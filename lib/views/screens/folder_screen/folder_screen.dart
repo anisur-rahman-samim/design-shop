@@ -121,6 +121,7 @@ class FolderScreen extends StatelessWidget {
                 controller: _folderController,
                 decoration: InputDecoration(labelText: 'Folder Name'),
               ),
+              SizedBox(height: 10,),
               TextField(
                 controller: _noteController,
                 decoration: InputDecoration(labelText: 'Note'),

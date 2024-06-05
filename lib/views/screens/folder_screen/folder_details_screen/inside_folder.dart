@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hive/hive.dart';
 
 import '../../../../main.dart';
-
 
 class ImageListInFolderScreen extends StatefulWidget {
   final String folderName;
@@ -10,7 +10,8 @@ class ImageListInFolderScreen extends StatefulWidget {
   ImageListInFolderScreen({required this.folderName});
 
   @override
-  _ImageListInFolderScreenState createState() => _ImageListInFolderScreenState();
+  _ImageListInFolderScreenState createState() =>
+      _ImageListInFolderScreenState();
 }
 
 class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
@@ -21,7 +22,9 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
   void initState() {
     super.initState();
     box = Hive.box<ImageModel>('images');
-    images = box.values.where((image) => image.folderName == widget.folderName).toList();
+    images = box.values
+        .where((image) => image.folderName == widget.folderName)
+        .toList();
   }
 
   @override
@@ -30,24 +33,35 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
       appBar: AppBar(
         title: Text('Images in ${widget.folderName}'),
       ),
-      body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-        ),
+      body: MasonryGridView.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 4,
         itemCount: images.length,
+        crossAxisSpacing: 4,
         itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () async {
-              await _showDeleteConfirmationDialog(context, images[index]);
-            },
-            child: Image.network(images[index].imagePath),
+          return Stack(
+            children: [
+              Image.network(images[index].imagePath),
+              Positioned(
+                right: 0,
+                  top: 0,
+                  child: IconButton(
+                  onPressed: ()async {
+                    await _showDeleteConfirmationDialog(context, images[index]);
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  )))
+            ],
           );
         },
       ),
     );
   }
 
-  Future<void> _showDeleteConfirmationDialog(BuildContext context, ImageModel image) {
+  Future<void> _showDeleteConfirmationDialog(
+      BuildContext context, ImageModel image) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -65,7 +79,9 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
               onPressed: () {
                 image.delete();
                 setState(() {
-                  images = box.values.where((image) => image.folderName == widget.folderName).toList();
+                  images = box.values
+                      .where((image) => image.folderName == widget.folderName)
+                      .toList();
                 });
                 Navigator.of(context).pop();
               },

@@ -379,6 +379,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                   );
                 },
               ),
+              SizedBox(height: 10,),
               TextField(
                 controller: _noteController,
                 decoration: InputDecoration(labelText: 'Note'),
