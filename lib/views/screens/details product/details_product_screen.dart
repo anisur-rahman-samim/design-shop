@@ -338,7 +338,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
   }
 
   void _showDialog(BuildContext context, String imagePath) {
-    final _folderController = TextEditingController();
+    var folderController = TextEditingController();
     final _noteController = TextEditingController();
 
     final box = Hive.box<ImageModel>('images');
@@ -364,10 +364,11 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                           textEditingValue.text.toLowerCase()));
                 },
                 onSelected: (String selection) {
-                  _folderController.text = selection;
+                  folderController.text = selection;
                 },
                 fieldViewBuilder: (context, controller, focusNode,
                     onEditingComplete) {
+                  folderController = controller;
                   return TextField(
                     controller: controller,
                     focusNode: focusNode,
@@ -393,7 +394,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
             ),
             TextButton(
               onPressed: () {
-                final folderName = _folderController.text;
+                final folderName = folderController.text;
                 final note = _noteController.text;
 
                 if (folderName.isNotEmpty && note.isNotEmpty) {
@@ -422,4 +423,5 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
       },
     );
   }
+
 }

@@ -10,6 +10,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:shop/models/boxes.dart';
 import 'package:shop/models/folder_hive_model.dart';
+import 'package:shop/utils/app_images.dart';
 import 'package:shop/views/screens/folder_screen/folder_details_screen/folder_details_screen.dart';
 import '../../../controllers/folder_controller.dart';
 import '../../../main.dart';
@@ -61,118 +62,14 @@ class FolderScreen extends StatelessWidget {
               onLongPress: () {
                 _showEditDialog(context, folders[index]);
               },
-              /* child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4.r),
-                          border: Border.all(
-                            color: const Color(0xFF54A630),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.shade300,
-                              blurRadius: 10,
-                              spreadRadius: 1,
-                              offset: const Offset(0, 0),
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4.r),
-                          child: Stack(
-                            children: [
-                              Image.network(
-                                folder.folderImage,
-                                fit: BoxFit.fitHeight,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Container(
-                                    width: 100,
-                                    height: 100,
-                                    color: Colors.grey,
-                                    child: const Center(
-                                      child: Icon(Icons.error),
-                                    ),
-                                  );
-                                },
-                              ),
-                            //  Text(folderCount.toString()),
-                              Positioned(
-                                top: 8,
-                                right: 8,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    box.delete(folder.key);
-                                    Get.snackbar(
-                                        "Folder Delete", "Deleted Successfully");
-                                  },
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 16,
-                                bottom: 0,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 8),
-                                    color: Colors.black.withOpacity(0.4),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Folder: ${folder.folderTitle}",
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              fontSize: 14, color: Colors.white),
-                                        ),
-                                        Text(
-                                          "Note: ${folder.folderSubTitle} (Items: $folderCount)",
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              fontSize: 12, color: Colors.white),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),*/
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.r),
-                  border: Border.all(
-                    color: const Color(0xFF54A630),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey.shade300,
-                        blurRadius: 10,
-                        spreadRadius: 1,
-                        offset: const Offset(0, 0))
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: Container(
-                    width: Get.width,
-                    decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.8),
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        vertical: 0, horizontal: 8),
-
-                    child: Column(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Column(
+                  children: [
+                    Image.asset(AppImages.folder),
+                    Column(
                       crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                      CrossAxisAlignment.center,
                       children: [
                         Text(
                           maxLines: 1,
@@ -180,20 +77,21 @@ class FolderScreen extends StatelessWidget {
                           "Folder: ${folders[index]}",
                           style: const TextStyle(
                               fontSize: 14,
-                              color: Colors.white),
+                              color: Colors.black),
                         ),
                         Text(
                           "Note: ${note[index]}",
                           overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: const TextStyle(
                               fontSize: 12,
-                              color: Colors.white),
+                              color: Colors.black),
                         ),
                       ],
                     ),
-                  ),
-                )
-              ),
+                  ],
+                ),
+              )
             );
           },
         ),
@@ -237,18 +135,18 @@ class FolderScreen extends StatelessWidget {
               child: Text('Cancel'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: ()async {
                 final newFolderName = _folderController.text;
                 final newNote = _noteController.text;
 
-                if (newFolderName.isNotEmpty) {
+                if (newFolderName.isNotEmpty && newNote.isNotEmpty) {
                   for (var image in imagesInFolder) {
-                    image.folderName = newFolderName;
                     image.note = newNote;
-                    image.save();
+                    image.folderName = newFolderName;
+
+                   await image.save();
                   }
                 }
-
                 Navigator.of(context).pop();
               },
               child: Text('Save'),
@@ -258,4 +156,6 @@ class FolderScreen extends StatelessWidget {
       },
     );
   }
+
+
 }
