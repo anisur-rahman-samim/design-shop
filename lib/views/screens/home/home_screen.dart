@@ -29,6 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   HomeController homeController = Get.put(HomeController());
 
+
+  ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     homeController.getSliderRepo();
@@ -57,8 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
       /// body part
       body: Padding(
         padding: EdgeInsets.all(8.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+         // crossAxisAlignment: CrossAxisAlignment.start,
+          controller: scrollController,
           children: [
             HomeScreenSilder(),
             Padding(
@@ -71,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Text(AppString.recentProduct,
                     style: TextStyle(fontSize: 18, color: Color(0xFF54A630)))),
 
-            RecentProductGirdView(),
+            SizedBox(child: RecentProductGirdView()),
           ],
         ),
       ),

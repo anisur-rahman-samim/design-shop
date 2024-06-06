@@ -33,85 +33,45 @@ class RecentProductGirdView extends StatelessWidget {
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : Expanded(
-            // height: 320.h,
+        : MasonryGridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 4,
+          itemCount: productController.product_model!.data!.attributes!.length,
+          crossAxisSpacing: 4,
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            var item = productController
+                .product_model!.data!.attributes![index];
+            return GestureDetector(
+              onTap: () {
+                productDetailsController.getProductDetailsRepo(
+                    item.sId!, item.productName!);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4.r),
+                  border: Border.all(color: const Color(0xFF54A630),),
 
-        /*    child: MasonryListViewGrid(
-                column: 2,
-
-                padding: const EdgeInsets.all(8.0),
-                children: List.generate(
-                  productController.product_model!.data!.attributes!.length,
-                  (index) {
-                    var item = productController
-                        .product_model!.data!.attributes![index];
-                    return GestureDetector(
-                      onTap: () {
-                        productDetailsController.getProductDetailsRepo(
-                            item.sId!, item.productName!);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4.r),
-                          border: Border.all(color: const Color(0xFF54A630),),
-
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.shade300,
-                                blurRadius: 10,
-                                spreadRadius: 1,
-                                offset: Offset(0, 0))
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4.r),
-                          child: Image.network(
-                            item.productImage!,
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                )),*/
-      child: MasonryGridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 4,
-        itemCount: productController.product_model!.data!.attributes!.length,
-        crossAxisSpacing: 4,
-        itemBuilder: (context, index) {
-          var item = productController
-              .product_model!.data!.attributes![index];
-          return GestureDetector(
-            onTap: () {
-              productDetailsController.getProductDetailsRepo(
-                  item.sId!, item.productName!);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4.r),
-                border: Border.all(color: const Color(0xFF54A630),),
-
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 10,
-                      spreadRadius: 1,
-                      offset: Offset(0, 0))
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(4.r),
-                child: Image.network(
-                  item.productImage!,
-                  fit: BoxFit.fitHeight,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                        offset: Offset(0, 0))
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4.r),
+                  child: Image.network(
+                    item.productImage!,
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
               ),
-            ),
-          );
-        },
-      ),
-
-    ));
+            );
+          },
+        ));
   }
 }
