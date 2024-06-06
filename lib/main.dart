@@ -63,7 +63,13 @@ class ImageModel extends HiveObject {
   @HiveField(2)
   String note;
 
-  ImageModel(this.imagePath, this.folderName, this.note);
+  @HiveField(3)
+  String imageId;
+
+  @HiveField(4)
+  String imageName;
+
+  ImageModel(this.imagePath, this.folderName, this.note,this.imageId, this.imageName);
 }
 
 class ImageModelAdapter extends TypeAdapter<ImageModel> {
@@ -76,6 +82,8 @@ class ImageModelAdapter extends TypeAdapter<ImageModel> {
       reader.readString(),
       reader.readString(),
       reader.readString(),
+      reader.readString(),
+      reader.readString(),
     );
   }
 
@@ -84,5 +92,7 @@ class ImageModelAdapter extends TypeAdapter<ImageModel> {
     writer.writeString(obj.imagePath);
     writer.writeString(obj.folderName);
     writer.writeString(obj.note);
+    writer.writeString(obj.imageId);
+    writer.writeString(obj.imageName);
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
+import '../../../../controllers/product_details_controller.dart';
 import '../../../../main.dart';
 
 class ImageListInFolderScreen extends StatefulWidget {
@@ -17,6 +19,8 @@ class ImageListInFolderScreen extends StatefulWidget {
 class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
   late Box<ImageModel> box;
   late List<ImageModel> images;
+  ProductDetailsController productDetailsController =
+  Get.put(ProductDetailsController());
 
   @override
   void initState() {
@@ -45,7 +49,12 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
               padding: const EdgeInsets.all(2.0),
               child: Stack(
                 children: [
-                  Image.network(images[index].imagePath),
+                  InkWell(
+                    onTap: (){
+                      productDetailsController.getProductDetailsRepo(
+                          images[index].imageId, images[index].imageName);
+                    },
+                      child: Image.network(images[index].imagePath)),
                   Positioned(
                     right: 0,
                       top: 0,

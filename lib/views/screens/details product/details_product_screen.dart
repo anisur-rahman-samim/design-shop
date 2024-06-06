@@ -241,7 +241,9 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                          .attributes!.productDescription![0]);*/
                     _showDialog(context,
                         productDetailsController.productDetails_Model!.data!
-                            .attributes!.productImage!);
+                            .attributes!.productImage!,productDetailsController.productDetails_Model!.data!
+                            .attributes!.sId!, productDetailsController.productDetails_Model!.data!
+                            .attributes!.productName!);
                   },
                   icon: CircleAvatar(
                       radius: 20.r,
@@ -395,7 +397,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
     );
   }
 
-  void _showDialog(BuildContext context, String imagePath) {
+  void _showDialog(BuildContext context, String imagePath, String imageId, String imageName) {
     var folderController = TextEditingController();
     final _noteController = TextEditingController();
 
@@ -469,7 +471,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                       ),
                     );
                   } else {
-                    final newImage = ImageModel(imagePath, folderName, note);
+                    final newImage = ImageModel(imagePath, folderName, note,imageId, imageName);
                     box.add(newImage);
                     Navigator.of(context).pop();
                   }
