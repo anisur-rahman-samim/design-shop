@@ -33,29 +33,35 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
       appBar: AppBar(
         title: Text('Images in ${widget.folderName}'),
       ),
-      body: MasonryGridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 4,
-        itemCount: images.length,
-        crossAxisSpacing: 4,
-        itemBuilder: (context, index) {
-          return Stack(
-            children: [
-              Image.network(images[index].imagePath),
-              Positioned(
-                right: 0,
-                  top: 0,
-                  child: IconButton(
-                  onPressed: ()async {
-                    await _showDeleteConfirmationDialog(context, images[index]);
-                  },
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  )))
-            ],
-          );
-        },
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: MasonryGridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 4,
+          itemCount: images.length,
+          crossAxisSpacing: 4,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Stack(
+                children: [
+                  Image.network(images[index].imagePath),
+                  Positioned(
+                    right: 0,
+                      top: 0,
+                      child: IconButton(
+                      onPressed: ()async {
+                        await _showDeleteConfirmationDialog(context, images[index]);
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      )))
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -74,19 +74,19 @@ class FolderScreen extends StatelessWidget {
                         Text(
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          "Folder: ${folders[index]}",
+                          "${folders[index]}",
                           style: const TextStyle(
                               fontSize: 14,
                               color: Colors.black),
                         ),
-                        Text(
+                        /*Text(
                           "Note: ${note[index]}",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: const TextStyle(
                               fontSize: 12,
                               color: Colors.black),
-                        ),
+                        ),*/
                       ],
                     ),
                   ],
