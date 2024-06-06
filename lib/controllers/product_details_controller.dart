@@ -27,7 +27,7 @@ class ProductDetailsController extends GetxController {
       productDetails_Model = ProductDetails_Model.fromJson(responseData);
       print('Status Code: ${data.statusCode}');
       print('Message: ${data.message}');
-      Get.to(DetailsProductScreen(name: name));
+      Get.to(DetailsProductScreen(name: name,id: productId,));
     } else {
       // Handle the error case here
       print('Error: ${data.statusCode}');

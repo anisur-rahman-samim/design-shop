@@ -9,6 +9,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:shop/controllers/hive_controller.dart';
 import 'package:shop/controllers/product_details_controller.dart';
 import 'package:shop/models/hive_model.dart';
+import '../../../controllers/product_controller.dart';
 import '../../../controllers/searchControler.dart';
 import '../../../main.dart';
 import '../../../utils/app_icons.dart';
@@ -18,9 +19,11 @@ import '../../widgets/custom_text.dart';
 import '../home/function/create_folder_dailog.dart';
 
 class DetailsProductScreen extends StatefulWidget {
-  DetailsProductScreen({super.key, this.name = ""});
+ final String id;
+ final String name;
+  DetailsProductScreen({super.key, this.name = "",this.id = ""});
 
-  String name;
+
 
   @override
   State<DetailsProductScreen> createState() => _DetailsProductScreenState();
@@ -35,28 +38,28 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
   FolderCreateDialog folderCreateDialog = FolderCreateDialog();
 
   HiveController hiveController = Get.put(HiveController());
-
+  ProductController productController = Get.put(ProductController());
   SearchScreenController searchScreenController =
   Get.put(SearchScreenController());
 
-  /* @override
-  void initState() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-    super.initState();
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+      if (productController.product_model!.data!.attributes!.length == _counter) {
+        _counter = 0;
+      }
+    });
   }
 
-  @override
-  void dispose() async {
-    await SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-    super.dispose();
+  void _decrementCounter() {
+    setState(() {
+      if (_counter > 0) {
+        _counter--;
+      }
+    });
   }
-*/
   @override
   Widget build(BuildContext context) {
     hiveController.cartList();
@@ -76,15 +79,70 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
           children: [
             Expanded(
               child: Center(
-                  child: PhotoView(
-                    imageProvider: NetworkImage(productDetailsController
-                        .productDetails_Model!.data!.attributes!.productImage!),
-                    minScale: PhotoViewComputedScale.contained * 0.8,
-                    maxScale: PhotoViewComputedScale.covered * 2.0,
-                    enableRotation: true,
-                    backgroundDecoration: const BoxDecoration(
-                      color: Colors.white,
-                    ),
+                  child: Stack(
+                    children: [
+                      PhotoView(
+                        imageProvider: NetworkImage(productDetailsController
+                            .productDetails_Model!.data!.attributes!.productImage!),
+                        minScale: PhotoViewComputedScale.contained * 0.8,
+                        maxScale: PhotoViewComputedScale.covered * 2.0,
+                        enableRotation: true,
+                        backgroundDecoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                          right: 0,
+                          left: 0,
+                          bottom: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                  onTap: (){
+                                   setState(() {
+                                     _decrementCounter();
+                                     productDetailsController.getProductDetailsRepo(
+                                         productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName);
+                                   });
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white.withOpacity(0.5),
+                                    ),
+                                    child: Center(child: Icon(Icons.arrow_back_ios,color: Colors.black,),),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: (){
+                                   setState(() {
+                                     _incrementCounter();
+                                     productDetailsController.getProductDetailsRepo(
+                                         productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName);
+
+                                   });
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white.withOpacity(0.5),
+                                    ),
+                                    child: Center(child: Icon(Icons.arrow_forward_ios_sharp,color: Colors.black,),),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                      )
+                    ],
                   )),
             ),
             SizedBox(height: 16.h),
