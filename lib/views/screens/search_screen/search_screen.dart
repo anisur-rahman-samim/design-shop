@@ -62,29 +62,6 @@ class _SearchScreenState extends State<SearchScreen> {
               children: [
                 SizedBox(
                     width: double.infinity,
-                    // child: Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     CustomText(
-                    //       fontWeight: FontWeight.w400,
-                    //       fontSize: 14,
-                    //       color: Color(0xFF393F42),
-                    //       title: "Search result for “Earphone”",
-                    //     ),
-                    //     Container(
-                    //       height: 20,
-                    //       width: 75,
-                    //       decoration: BoxDecoration(
-                    //           border: Border.all(color: Color(0xFFF0F2F1))),
-                    //       child: const Row(
-                    //         children: [
-                    //           Text("Filters"),
-                    //           Icon(Icons.filter_alt_outlined)
-                    //         ],
-                    //       ),
-                    //     )
-                    //   ],
-                    // )
                 ),
                 Obx(() => searchScreenController.products.isEmpty? Center(child: Text("Item not found")) : Container(
                   margin: EdgeInsets.only(top: 30),

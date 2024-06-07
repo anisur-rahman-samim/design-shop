@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../controllers/product_details_controller.dart';
 import '../../../../main.dart';
 
@@ -35,7 +35,7 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Images in ${widget.folderName}'),
+        title: Text('${widget.folderName}'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -47,26 +47,40 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.all(2.0),
-              child: Stack(
-                children: [
-                  InkWell(
-                    onTap: (){
-                      productDetailsController.getProductDetailsRepo(
-                          images[index].imageId, images[index].imageName);
-                    },
-                      child: Image.network(images[index].imagePath)),
-                  Positioned(
-                    right: 0,
-                      top: 0,
-                      child: IconButton(
-                      onPressed: ()async {
-                        await _showDeleteConfirmationDialog(context, images[index]);
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4.r),
+                  border: Border.all(color: const Color(0xFF54A630),),
+
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                        offset: Offset(0, 0))
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    InkWell(
+                      onTap: (){
+                        productDetailsController.getProductDetailsRepo(
+                            images[index].imageId, images[index].imageName);
                       },
-                      icon: const Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      )))
-                ],
+                        child: Image.network(images[index].imagePath)),
+                    Positioned(
+                      right: 0,
+                        top: 0,
+                        child: IconButton(
+                        onPressed: ()async {
+                          await _showDeleteConfirmationDialog(context, images[index]);
+                        },
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        )))
+                  ],
+                ),
               ),
             );
           },

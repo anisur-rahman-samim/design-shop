@@ -28,6 +28,7 @@ class FolderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final box = Hive.box<ImageModel>('images');
     final folders = box.values.map((image) => image.folderName).toSet().toList();
+    final imagePath = box.values.map((image) => image.imagePath).toSet().toList();
     final note = box.values.map((image) => image.note).toSet().toList();
     return Scaffold(
       appBar: AppBar(
@@ -46,13 +47,6 @@ class FolderScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-             /*   Get.to(() => FolderDetailsScreen(
-                  folderName: folders.,
-                  note: folders.folderSubTitle,
-                  image: folder.folderImage,
-                  productName: folder.note,
-                  price: folder.price.toString(),
-                ));*/
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ImageListInFolderScreen(folderName: folders[index]),
@@ -62,32 +56,63 @@ class FolderScreen extends StatelessWidget {
               onLongPress: () {
                 _showEditDialog(context, folders[index]);
               },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4.r),
+                  border: Border.all(color: const Color(0xFF54A630),),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                        offset: Offset(0, 0))
+                  ],
+                ),
+                child: Stack(
                   children: [
-                    Image.asset(AppImages.folder),
-                    Column(
-                      crossAxisAlignment:
-                      CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          "${folders[index]}",
-                          style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.black),
+                    Image.network(imagePath[index]),
+                    Positioned(
+                      bottom: 0,
+                      child: Container(
+                        width: Get.width / 2.08,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.7),
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft:  Radius.circular(10))
                         ),
-                        /*Text(
-                          "Note: ${note[index]}",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.black),
-                        ),*/
-                      ],
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                         child: Center(child: Text(
+                           maxLines: 1,
+                           overflow: TextOverflow.ellipsis,
+                           folders[index],
+                           style: const TextStyle(
+                               fontSize: 14,
+                               color: Colors.white),
+                         ),),
+                         /* child: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                folders[index],
+                                style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white),
+                              ),
+                           *//*   Text(
+                                "Note: ${note[index]}",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white),
+                              ),*//*
+                            ],
+                          ),*/
+                        ),
+                      ),
                     ),
                   ],
                 ),
