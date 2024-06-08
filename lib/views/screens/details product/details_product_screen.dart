@@ -106,7 +106,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                                    setState(() {
                                      _decrementCounter();
                                      productDetailsController.getProductDetailsRepo(
-                                         productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName);
+                                         productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName,context,);
                                    });
                                   },
                                   child: Container(
@@ -124,7 +124,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                                    setState(() {
                                      _incrementCounter();
                                      productDetailsController.getProductDetailsRepo(
-                                         productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName);
+                                         productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName,context,);
 
                                    });
                                   },
@@ -200,12 +200,26 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                       const SizedBox(
                         height: 8,
                       ),
-                      CustomMultiLineText(
-                        title: productDetailsController
-                            .productDetails_Model!
-                            .data!
-                            .attributes!
-                            .productDescription![0],
+                      SizedBox(
+                        height: 30,
+                        child: ListView.builder(
+                          itemCount: productDetailsController
+                              .productDetails_Model!
+                              .data!
+                              .attributes!
+                              .productDescription!.length,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context,index){
+                              return CustomMultiLineText(
+                                title: productDetailsController
+                                    .productDetails_Model!
+                                    .data!
+                                    .attributes!
+                                    .productDescription![index],
+                              );
+                            }
+                        ),
                       ),
                       const SizedBox(
                         height: 14,
@@ -226,45 +240,29 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
           items: [
             BottomNavigationBarItem(
               label: "",
-              icon: IconButton(
-                  onPressed: () {
-                    /*  folderCreateDialog.createFolder(
-                     context,
-                     productDetailsController
-                         .productDetails_Model!.data!.attributes!.productName!,
-                     productDetailsController.productDetails_Model!.data!
-                         .attributes!.productImage!,
-                     productDetailsController
-                         .productDetails_Model!.data!.attributes!.productPrice!
-                         .toString(),
-                     productDetailsController.productDetails_Model!.data!
-                         .attributes!.productDescription![0]);*/
-                    _showDialog(context,
-                        productDetailsController.productDetails_Model!.data!
-                            .attributes!.productImage!,productDetailsController.productDetails_Model!.data!
-                            .attributes!.sId!, productDetailsController.productDetails_Model!.data!
-                            .attributes!.productName!);
-                  },
-                  icon: CircleAvatar(
-                      radius: 20.r,
-                      backgroundColor: Colors.black12,
-                      child: const Icon(
-                        Icons.create_new_folder_outlined,
-                        color: Color(0xFF54A630),
-                      ))),),
-            BottomNavigationBarItem(label: "", icon: IconButton(
-                onPressed: () {
-                  productDetailsController.downloadImage(
-                      productDetailsController.productDetails_Model!.data!
-                          .attributes!.productImage!);
-                },
-                icon: CircleAvatar(
-                    radius: 20.r,
-                    backgroundColor: Colors.black12,
-                    child: const Icon(
-                      Icons.download_rounded,
-                      color: Color(0xFF54A630),
-                    ))),),
+              icon: Padding(
+                padding: const EdgeInsets.only(top: 14.0),
+                child: IconButton(
+                    onPressed: () {
+                      _showDialog(context,
+                          productDetailsController.productDetails_Model!.data!
+                              .attributes!.productImage!,productDetailsController.productDetails_Model!.data!
+                              .attributes!.sId!, productDetailsController.productDetails_Model!.data!
+                              .attributes!.productName!);
+                    },
+                    icon: Container(
+                        height: 40,
+                        width: 60,
+                        decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: const Icon(
+                          Icons.create_new_folder_outlined,
+                          color: Color(0xFF54A630),
+                        ))),
+              ),),
+
             BottomNavigationBarItem(label: "", icon: IconButton(
                 onPressed: () {
                   NotesModel notesModel = NotesModel(
@@ -282,9 +280,13 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
 
                   hiveController.addToCart(notesModel);
                 },
-                icon: CircleAvatar(
-                    radius: 20.r,
-                    backgroundColor: Colors.black12,
+                icon: Container(
+                    height: 40,
+                    width: 60,
+                    decoration: BoxDecoration(
+                        color: Colors.black12,
+                        borderRadius: BorderRadius.circular(10)
+                    ),
                     child: Obx(() =>
                         Icon(
                           hiveController.isCartAdded.contains(widget.name)
@@ -294,105 +296,48 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                         )))),),
             BottomNavigationBarItem(label: "", icon: IconButton(
                 onPressed: () {
-                  if (isInfo.value == true) {
-                    isInfo.value = false;
-                  } else {
-                    isInfo.value = true;
-                  }
-                },
-                icon: CircleAvatar(
-                    radius: 20.r,
-                    backgroundColor: Colors.black12,
-                    child: const Icon(
-                      Icons.info_outline,
-                      color: Color(0xFF54A630),
-                    ))))
-
-          ]
-      ),
-      /*bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-                onPressed: () {
-                  folderCreateDialog.createFolder(
-                      context,
-                      productDetailsController
-                          .productDetails_Model!.data!.attributes!.productName!,
-                      productDetailsController.productDetails_Model!.data!
-                          .attributes!.productImage!,
-                      productDetailsController
-                          .productDetails_Model!.data!.attributes!.productPrice!
-                          .toString(),
-                      productDetailsController.productDetails_Model!.data!
-                          .attributes!.productDescription![0]);
-                },
-                icon: CircleAvatar(
-                    radius: 20.r,
-                    backgroundColor: Colors.black12,
-                    child: const Icon(
-                      Icons.create_new_folder_outlined,
-                      color: Color(0xFF54A630),
-                    ))),
-            IconButton(
-                onPressed: () {
                   productDetailsController.downloadImage(
                       productDetailsController.productDetails_Model!.data!
                           .attributes!.productImage!);
                 },
-                icon: CircleAvatar(
-                    radius: 20.r,
-                    backgroundColor: Colors.black12,
+                icon: Container(
+                  height: 40,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.black12,
+                      borderRadius: BorderRadius.circular(10)
+                    ),
                     child: const Icon(
                       Icons.download_rounded,
                       color: Color(0xFF54A630),
-                    ))),
-            IconButton(
-                onPressed: () {
-                  NotesModel notesModel = NotesModel(
-                      title: widget.name,
-                      description: productDetailsController
-                          .productDetails_Model!
-                          .data!
-                          .attributes!
-                          .productDescription![0],
-                      image: productDetailsController.productDetails_Model!
-                          .data!.attributes!.productImage!,
-                      price: productDetailsController
-                          .productDetails_Model!.data!.attributes!.productPrice
-                          .toString());
+                    ))),),
+            BottomNavigationBarItem(label: "", icon: Padding(
+              padding: const EdgeInsets.only(left: 14.0),
+              child: IconButton(
+                  onPressed: () {
+                    if (isInfo.value == true) {
+                      isInfo.value = false;
+                    } else {
+                      isInfo.value = true;
+                    }
+                  },
+                  icon: Container(
+                    height: 40,
+                    width: 60,
+                    decoration: BoxDecoration(
+                        color: Colors.black12,
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                      child: const Icon(
+                        Icons.info_outline,
+                        color: Color(0xFF54A630),
+                      ),),
+              ),
+            ),)
 
-                  hiveController.addToCart(notesModel);
-                },
-                icon: CircleAvatar(
-                    radius: 20.r,
-                    backgroundColor: Colors.black12,
-                    child: Obx(() => Icon(
-                          hiveController.isCartAdded.contains(widget.name)
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: Color(0xFF54A630),
-                        )))),
-            IconButton(
-                onPressed: () {
-                  if (isInfo.value == true) {
-                    isInfo.value = false;
-                  } else {
-                    isInfo.value = true;
-                  }
-                },
-                icon: CircleAvatar(
-                    radius: 20.r,
-                    backgroundColor: Colors.black12,
-                    child: const Icon(
-                      Icons.info_outline,
-                      color: Color(0xFF54A630),
-                    ))),
-          ],
-        ),
-      ),*/
+          ]
+      ),
+
 
     );
   }
@@ -409,80 +354,132 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text('Save Image'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Autocomplete<String>(
-                optionsBuilder: (TextEditingValue textEditingValue) {
-                  if (textEditingValue.text.isEmpty) {
-                    return const Iterable<String>.empty();
-                  }
-                  return folders.where((folder) =>
-                      folder.toLowerCase().contains(
-                          textEditingValue.text.toLowerCase()));
-                },
-                onSelected: (String selection) {
-                  folderController.text = selection;
-                },
-                fieldViewBuilder: (context, controller, focusNode,
-                    onEditingComplete) {
-                  folderController = controller;
-                  return TextField(
-                    controller: controller,
-                    focusNode: focusNode,
-                    onEditingComplete: onEditingComplete,
-                    decoration: InputDecoration(
-                      labelText: 'Folder Name',
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: 10,),
-              TextField(
-                controller: _noteController,
-                decoration: InputDecoration(labelText: 'Note'),
-              ),
-            ],
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                final folderName = folderController.text;
-                final note = _noteController.text;
+          child: Container(
+            width: 400.0, // Set the desired width here
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Save Image',
 
-                if (folderName.isNotEmpty && note.isNotEmpty) {
-                  final bool imageExists = box.values.any((image) =>
-                  image.folderName == folderName &&
-                      image.imagePath == imagePath);
-
-                  if (imageExists) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                            'This image already exists in the selected folder.'),
+                  ),
+                  SizedBox(height: 16.0),
+                  Container(
+                    height: 67,
+                    child: Autocomplete<String>(
+                      optionsBuilder: (TextEditingValue textEditingValue) {
+                        if (textEditingValue.text.isEmpty) {
+                          return const Iterable<String>.empty();
+                        }
+                        return folders.where((folder) => folder
+                            .toLowerCase()
+                            .contains(textEditingValue.text.toLowerCase()));
+                      },
+                      onSelected: (String selection) {
+                        folderController.text = selection;
+                      },
+                      fieldViewBuilder:
+                          (context, controller, focusNode, onEditingComplete) {
+                        folderController = controller;
+                        return TextField(
+                          controller: controller,
+                          focusNode: focusNode,
+                          onEditingComplete: onEditingComplete,
+                          decoration: InputDecoration(
+                            labelText: 'Folder Name',
+                          ),
+                        );
+                      },
+                      optionsViewBuilder: (context, onSelected, options) {
+                        return Align(
+                          alignment: Alignment.topLeft,
+                          child: Material(
+                            elevation: 4.0,
+                            child: Container(
+                              height: 56,
+                              width: Get.width / 1.4,
+                              child: ListView.builder(
+                                padding: EdgeInsets.all(8.0),
+                                itemCount: options.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final String option =
+                                  options.elementAt(index);
+                                  return GestureDetector(
+                                    onTap: () {
+                                      onSelected(option);
+                                    },
+                                    child: ListTile(
+                                      title: Text(option),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  TextField(
+                    controller: _noteController,
+                    maxLines: 3,
+                    decoration: InputDecoration(labelText: 'Note'),
+                  ),
+                  SizedBox(height: 16.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Cancel'),
                       ),
-                    );
-                  } else {
-                    final newImage = ImageModel(imagePath, folderName, note,imageId, imageName);
-                    box.add(newImage);
-                    Navigator.of(context).pop();
-                  }
-                }
-              },
-              child: Text('Save'),
+                      TextButton(
+                        onPressed: () {
+                          final folderName = folderController.text;
+                          final note = _noteController.text;
+
+                          if (folderName.isNotEmpty && note.isNotEmpty) {
+                            final bool imageExists = box.values.any((image) =>
+                            image.folderName == folderName &&
+                                image.imagePath == imagePath);
+
+                            if (imageExists) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'This image already exists in the selected folder.'),
+                                ),
+                              );
+                            } else {
+                              final newImage = ImageModel(imagePath, folderName,
+                                  note, imageId, imageName);
+                              box.add(newImage);
+                              Navigator.of(context).pop();
+                            }
+                          }
+                        },
+                        child: Text('Save'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
         );
       },
     );
+
+
+
   }
 
 }

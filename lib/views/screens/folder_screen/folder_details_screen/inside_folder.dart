@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop/views/screens/folder_screen/folder_screen.dart';
 import '../../../../controllers/product_details_controller.dart';
 import '../../../../main.dart';
 
@@ -35,7 +36,7 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.folderName}'),
+        title: Text(widget.folderName),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -65,7 +66,7 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
                     InkWell(
                       onTap: (){
                         productDetailsController.getProductDetailsRepo(
-                            images[index].imageId, images[index].imageName);
+                            images[index].imageId, images[index].imageName,context,);
                       },
                         child: Image.network(images[index].imagePath)),
                     Positioned(
@@ -73,7 +74,7 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
                         top: 0,
                         child: IconButton(
                         onPressed: ()async {
-                          await _showDeleteConfirmationDialog(context, images[index]);
+                          await _showDeleteConfirmationDialog(context, images[index], images);
                         },
                         icon: const Icon(
                           Icons.delete,
@@ -90,7 +91,7 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
   }
 
   Future<void> _showDeleteConfirmationDialog(
-      BuildContext context, ImageModel image) {
+      BuildContext context, ImageModel image, List<ImageModel> images) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -111,8 +112,13 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
                   images = box.values
                       .where((image) => image.folderName == widget.folderName)
                       .toList();
+                  box = Hive.box<ImageModel>('images');
+                    Navigator.of(context).pop();
+
+
                 });
-                Navigator.of(context).pop();
+
+
               },
               child: Text('Delete'),
             ),

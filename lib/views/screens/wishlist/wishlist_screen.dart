@@ -59,20 +59,20 @@ class WishlistScreen extends StatelessWidget {
 
                       },
                     ));*/
-                return MasonryGridView.count(
-                  crossAxisCount: 2,
-                  itemCount: data.length,
-                  mainAxisSpacing: 4,
-                  crossAxisSpacing: 4,
-                  itemBuilder: (context, index) {
-                    NotesModel item = data[index];
-                    return GestureDetector(
-                      onTap: () {
-                        // productDetailsController.getProductDetailsRepo(
-                        //     item.id!,item.title!);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: MasonryGridView.count(
+                    crossAxisCount: 2,
+                    itemCount: data.length,
+                    mainAxisSpacing: 4,
+                    crossAxisSpacing: 4,
+                    itemBuilder: (context, index) {
+                      NotesModel item = data[index];
+                      return GestureDetector(
+                        onTap: () {
+                          // productDetailsController.getProductDetailsRepo(
+                          //     item.id!,item.title!);
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.r),
@@ -113,9 +113,9 @@ class WishlistScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 );
               },
             ),

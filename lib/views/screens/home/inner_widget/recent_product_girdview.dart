@@ -47,7 +47,7 @@ class RecentProductGirdView extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 productDetailsController.getProductDetailsRepo(
-                    item.sId!, item.productName!);
+                    item.sId!, item.productName!,context,);
               },
               child: Container(
                 decoration: BoxDecoration(

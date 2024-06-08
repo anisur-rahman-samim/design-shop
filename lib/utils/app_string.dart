@@ -22,7 +22,7 @@ class AppString {
   static const String appleStore = "Apple Store" ;
   static const String follow = "Follow" ;
   static const String descriptionProduct = "Description of product" ;
-  static const String description = "Design Description : " ;
+  static const String description = "Design Keyword : " ;
   static const String addToCart = "Add to Cart" ;
   static const String buyNow = "Buy Now" ;
   static const String sSPriceList = "SS Price List" ;

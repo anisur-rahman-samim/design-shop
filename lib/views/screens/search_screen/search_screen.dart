@@ -6,9 +6,11 @@ import 'package:shop/controllers/product_details_controller.dart';
 import '../../../controllers/searchControler.dart';
 import '../../widgets/custom_buton_outline.dart';
 import '../../widgets/custom_text.dart';
+import '../details product/details_product_screen.dart';
 
 class SearchScreen extends StatefulWidget {
-  SearchScreen({super.key});
+  final String search;
+  SearchScreen({super.key, this.search = ""});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -22,6 +24,12 @@ class _SearchScreenState extends State<SearchScreen> {
 
   ProductDetailsController productDetailsController =
   Get.put(ProductDetailsController());
+  @override
+  void initState() {
+    searchText.text = widget.search;
+    searchScreenController.getSearchData( search: widget.search);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +90,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: GestureDetector(
                           onTap: () {
                             productDetailsController.getProductDetailsRepo(
-                                product.sId!, product.productName!);
+                                product.sId!, product.productName!,context,);
+                         //   Get.to(DetailsProductScreen(name: product.productName!,id: product.sId!,));
                           },
                           child: Container(
                             decoration: BoxDecoration(

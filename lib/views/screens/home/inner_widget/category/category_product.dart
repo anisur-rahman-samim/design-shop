@@ -41,7 +41,7 @@ class CategoryProductScreen extends StatelessWidget {
                  productDetailsController.getProductDetailsRepo(
                      categoryController!
                          .product_model!.data!.attributes![index].sId!,categoryController!
-                     .product_model!.data!.attributes![index].productName!);
+                     .product_model!.data!.attributes![index].productName!,context,);
                },
                child: Container(
                  decoration: BoxDecoration(

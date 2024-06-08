@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,7 +17,7 @@ class ProductDetailsController extends GetxController {
   ProductDetails_Model? productDetails_Model;
   RxBool isLoading = false.obs;
 
-  Future<void> getProductDetailsRepo(String productId, name) async {
+  Future<void> getProductDetailsRepo(String productId, name, BuildContext context) async {
     isLoading.value = true;
     var data = await ApiService.getApi("${AppUrls.product}/$productId",
         {"Authorization": "Bearer ${SharePrefHelper.token}"});
@@ -27,7 +28,11 @@ class ProductDetailsController extends GetxController {
       productDetails_Model = ProductDetails_Model.fromJson(responseData);
       print('Status Code: ${data.statusCode}');
       print('Message: ${data.message}');
-      Get.to(DetailsProductScreen(name: name,id: productId,));
+     // Get.to(() => DetailsProductScreen(name: name,id: productId,));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DetailsProductScreen(name: name,id: productId,)),
+      );
     } else {
       // Handle the error case here
       print('Error: ${data.statusCode}');

@@ -35,7 +35,7 @@ class FolderListScreen extends StatelessWidget {
         const Duration(milliseconds: 200),
         () {
           productDetailsController.getProductDetailsRepo(
-              item.id!, item.productName!);
+              item.id!, item.productName!,context,);
         },
       );
     }
