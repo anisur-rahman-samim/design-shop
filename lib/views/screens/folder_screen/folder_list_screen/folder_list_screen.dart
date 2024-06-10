@@ -116,73 +116,76 @@ class FolderListScreen extends StatelessWidget {
               );
             },
           )),*/
-      body: MasonryGridView.count(
-        crossAxisCount: 2,
-        itemCount: folderList.length,
-        mainAxisSpacing: 4,
-        crossAxisSpacing: 4,
-        itemBuilder: (context, index) {
-            return GestureDetector(
-            onTap: () {},
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4.r),
-                border: Border.all(
-                  color: const Color(0xFF54A630),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 10,
-                      spreadRadius: 1,
-                      offset: const Offset(0, 0))
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(4.r),
-                child: Stack(
-                  children: [
-                    Image.network(
-                      "dfd",
-                      fit: BoxFit.fitHeight,
-                    ),
-                    Positioned(
-                        left: 0,
-                        bottom: 0,
-                        child: Padding(
-                          // padding: const EdgeInsets.all(8.0),
-                          padding: const EdgeInsets.only(right: 8),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 8),
-                            color: Colors.black.withOpacity(0.4),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  "Folder: ",
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.white),
-                                ),
-                                Text(
-                                  "Note: ",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      fontSize: 12, color: Colors.white),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ))
+      body: Padding(
+        padding:  EdgeInsets.symmetric(horizontal: 8.w),
+        child: MasonryGridView.count(
+          crossAxisCount: 2,
+          itemCount: folderList.length,
+          mainAxisSpacing: 4,
+          crossAxisSpacing: 4,
+          itemBuilder: (context, index) {
+              return GestureDetector(
+              onTap: () {},
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4.r),
+                  border: Border.all(
+                    color: const Color(0xFF54A630),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                        offset: const Offset(0, 0))
                   ],
                 ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4.r),
+                  child: Stack(
+                    children: [
+                      Image.network(
+                        "dfd",
+                        fit: BoxFit.fitHeight,
+                      ),
+                      Positioned(
+                          left: 0,
+                          bottom: 0,
+                          child: Padding(
+                            // padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(right: 8),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 8),
+                              color: Colors.black.withOpacity(0.4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    "Folder: ",
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.white),
+                                  ),
+                                  Text(
+                                    "Note: ",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ))
+                    ],
+                  ),
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

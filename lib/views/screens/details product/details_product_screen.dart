@@ -46,6 +46,9 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
 
   int _selectedIndex = 0;
 
+  var contained =  PhotoViewComputedScale.contained * 0.8;
+  var covered =  PhotoViewComputedScale.covered * 2.0;
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -125,8 +128,8 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                       PhotoView(
                         imageProvider: NetworkImage(productDetailsController
                             .productDetails_Model!.data!.attributes!.productImage!),
-                        minScale: PhotoViewComputedScale.contained * 0.8,
-                        maxScale: PhotoViewComputedScale.covered * 2.0,
+                        minScale: contained,
+                        maxScale: covered,
                         enableRotation: true,
                         backgroundDecoration: const BoxDecoration(
                           color: Colors.white,
@@ -148,6 +151,8 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                                      _decrementCounter();
                                      productDetailsController.getProductDetailsRepo(
                                          productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName,context,);
+                                     covered =  PhotoViewComputedScale.covered * 2.0;
+                                     contained =  PhotoViewComputedScale.contained * 0.8;
                                    });
                                   },
                                   child: Container(
@@ -166,6 +171,9 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                                      _incrementCounter();
                                      productDetailsController.getProductDetailsRepo(
                                          productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName,context,);
+
+                                     covered =  PhotoViewComputedScale.covered * 2.0;
+                                     contained =  PhotoViewComputedScale.contained * 0.8;
 
                                    });
                                   },
@@ -519,7 +527,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Cancel'),
+                        child: const Text('Cancel'),
                       ),
                       TextButton(
                         onPressed: () {
@@ -533,7 +541,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
 
                             if (imageExists) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                   content: Text(
                                       'This image already exists in the selected folder.'),
                                 ),
