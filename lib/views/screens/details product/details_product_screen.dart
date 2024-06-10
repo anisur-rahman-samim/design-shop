@@ -44,6 +44,46 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
 
   int _counter = 0;
 
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (index == 0) {
+          _showDialog(context,
+              productDetailsController.productDetails_Model!.data!
+                  .attributes!.productImage!,productDetailsController.productDetails_Model!.data!
+                  .attributes!.sId!, productDetailsController.productDetails_Model!.data!
+                  .attributes!.productName!);
+    }else if (index == 1){
+      NotesModel notesModel = NotesModel(
+          title: widget.name,
+          description: productDetailsController
+              .productDetails_Model!
+              .data!
+              .attributes!
+              .productDescription![0],
+          image: productDetailsController.productDetails_Model!
+              .data!.attributes!.productImage!,
+          price: productDetailsController
+              .productDetails_Model!.data!.attributes!.productPrice
+              .toString());
+
+      hiveController.addToCart(notesModel);
+    }else if (index == 2){
+      productDetailsController.downloadImage(
+          productDetailsController.productDetails_Model!.data!
+              .attributes!.productImage!);
+    }else if (index == 3){
+      if (isInfo.value == true) {
+        isInfo.value = false;
+      } else {
+        isInfo.value = true;
+      }
+    }
+  }
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -237,7 +277,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+/*      bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
               label: "",
@@ -337,13 +377,52 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
             ),)
 
           ]
-      ),
+      ),*/
+      bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: const Color(0xFFFFFFFF),
+          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+          selectedItemColor: Colors.greenAccent,
+          unselectedItemColor: const Color(0xFF939393),
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
 
+          // unselectedItemColor: Colors.black,
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          items:  [
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.create_new_folder_outlined,
+                  color: Colors.black26,
+                ),
+                label: ""),
+            BottomNavigationBarItem(
+                icon: Obx(() => Icon(
+                  hiveController.isCartAdded.contains(widget.name)
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  color: Color(0xFF54A630),
+                ),),
+                label: ""),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.download_rounded,
+                  color: Colors.black26,
+                ),
+                label: ""),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.info_outline,
+                  color: Colors.black38,
+                ),
+                label: ""),
+          ]),
 
     );
   }
 
-  void _showDialog(BuildContext context, String imagePath, String imageId, String imageName) {
+   _showDialog(BuildContext context, String imagePath, String imageId, String imageName) {
     var folderController = TextEditingController();
     final _noteController = TextEditingController();
 
@@ -463,11 +542,15 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                               final newImage = ImageModel(imagePath, folderName,
                                   note, imageId, imageName);
                               box.add(newImage);
+
+                            Get.snackbar("Successfully", "Folder create successfully done",);
+
                               Navigator.of(context).pop();
+
                             }
                           }
                         },
-                        child: Text('Save'),
+                        child: const Text('Save'),
                       ),
                     ],
                   ),
