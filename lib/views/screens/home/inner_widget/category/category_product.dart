@@ -29,44 +29,47 @@ class CategoryProductScreen extends StatelessWidget {
          ? const Center(
        child: CircularProgressIndicator(),
      )
-         : MasonryGridView.count(
-           crossAxisCount: 2,
-           mainAxisSpacing: 4,
-           itemCount: categoryController.product_model!.data!.attributes!.length,
-           crossAxisSpacing: 4,
-           itemBuilder: (context, index) {
+         : Padding(
+           padding:  EdgeInsets.symmetric(horizontal: 8.w),
+           child: MasonryGridView.count(
+             crossAxisCount: 2,
+             mainAxisSpacing: 4,
+             itemCount: categoryController.product_model!.data!.attributes!.length,
+             crossAxisSpacing: 4,
+             itemBuilder: (context, index) {
 
-             return GestureDetector(
-               onTap: () {
-                 productDetailsController.getProductDetailsRepo(
-                     categoryController!
-                         .product_model!.data!.attributes![index].sId!,categoryController!
-                     .product_model!.data!.attributes![index].productName!,context,);
-               },
-               child: Container(
-                 decoration: BoxDecoration(
-                   borderRadius: BorderRadius.circular(4.r),
-                   border: Border.all(color: const Color(0xFF54A630),),
+               return GestureDetector(
+                 onTap: () {
+                   productDetailsController.getProductDetailsRepo(
+                       categoryController!
+                           .product_model!.data!.attributes![index].sId!,categoryController!
+                       .product_model!.data!.attributes![index].productName!,context,);
+                 },
+                 child: Container(
+                   decoration: BoxDecoration(
+                     borderRadius: BorderRadius.circular(4.r),
+                     border: Border.all(color: const Color(0xFF54A630),),
 
-                   boxShadow: [
-                     BoxShadow(
-                         color: Colors.grey.shade300,
-                         blurRadius: 10,
-                         spreadRadius: 1,
-                         offset: Offset(0, 0))
-                   ],
-                 ),
-                 child: ClipRRect(
-                   borderRadius: BorderRadius.circular(4.r),
-                   child: Image.network(
-                     categoryController.product_model!.data!
-                         .attributes![index].productImage!,
-                     fit: BoxFit.fitHeight,
+                     boxShadow: [
+                       BoxShadow(
+                           color: Colors.grey.shade300,
+                           blurRadius: 10,
+                           spreadRadius: 1,
+                           offset: Offset(0, 0))
+                     ],
+                   ),
+                   child: ClipRRect(
+                     borderRadius: BorderRadius.circular(4.r),
+                     child: Image.network(
+                       categoryController.product_model!.data!
+                           .attributes![index].productImage!,
+                       fit: BoxFit.fitHeight,
+                     ),
                    ),
                  ),
-               ),
-             );
-           },
+               );
+             },
+           ),
          )),
     );
   }

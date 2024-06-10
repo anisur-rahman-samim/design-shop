@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.search)),
         ],
       ),
-
+      backgroundColor: Colors.white,
       /// body part
       body: Padding(
         padding: EdgeInsets.all(8.w),

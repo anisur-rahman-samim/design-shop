@@ -64,6 +64,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
   Widget build(BuildContext context) {
     hiveController.cartList();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           widget.name,

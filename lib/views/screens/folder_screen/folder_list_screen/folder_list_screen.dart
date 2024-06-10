@@ -41,6 +41,7 @@ class FolderListScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           folderList[0].folderName,

@@ -60,7 +60,7 @@ class WishlistScreen extends StatelessWidget {
                       },
                     ));*/
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  padding:  EdgeInsets.symmetric(horizontal: 8.w),
                   child: MasonryGridView.count(
                     crossAxisCount: 2,
                     itemCount: data.length,
