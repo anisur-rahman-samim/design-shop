@@ -31,14 +31,16 @@ class FolderScreen extends StatelessWidget {
     final imagePath = box.values.map((image) => image.imagePath).toSet().toList();
     final note = box.values.map((image) => image.note).toSet().toList();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text(
           AppString.yourFolder,
           style: TextStyle(color: Color(0xFF54A630)),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        padding:  EdgeInsets.symmetric(horizontal: 8.w),
         child: MasonryGridView.count(
           crossAxisCount: 2,
           itemCount: folders.length,
@@ -53,9 +55,7 @@ class FolderScreen extends StatelessWidget {
                   ),
                 );
               },
-              onLongPress: () {
-                _showEditDialog(context, folders[index]);
-              },
+
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4.r),
@@ -81,14 +81,26 @@ class FolderScreen extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
-                         child: Center(child: Text(
-                           maxLines: 1,
-                           overflow: TextOverflow.ellipsis,
-                           folders[index],
-                           style: const TextStyle(
-                               fontSize: 14,
-                               color: Colors.white),
-                         ),),
+                         child: Column(
+                           children: [
+                             Center(child: Text(
+                               maxLines: 1,
+                               overflow: TextOverflow.ellipsis,
+                               folders[index],
+                               style: const TextStyle(
+                                   fontSize: 14,
+                                   color: Colors.white),
+                             ),),
+                             Text(
+                               "Note: ${note[index]}",
+                               overflow: TextOverflow.ellipsis,
+                               maxLines: 1,
+                               style: const TextStyle(
+                                   fontSize: 12,
+                                   color: Colors.white),
+                             ),
+                           ],
+                         ),
                          /* child: Column(
                             crossAxisAlignment:
                             CrossAxisAlignment.center,
@@ -114,6 +126,19 @@ class FolderScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Positioned(
+                      right: 10,
+                        top: 10,
+                        child: GestureDetector(
+                          onTap: () {
+                            _showEditDialog(context, folders[index]);
+                          },
+                          child: CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Colors.white,
+                              child: Icon(Icons.edit,size: 14,)),
+                        )
+                    )
                   ],
                 ),
               )
@@ -149,6 +174,7 @@ class FolderScreen extends StatelessWidget {
               SizedBox(height: 10,),
               TextField(
                 controller: _noteController,
+                maxLines: 3,
                 decoration: InputDecoration(labelText: 'Note'),
               ),
             ],

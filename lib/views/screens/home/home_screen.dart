@@ -41,7 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         toolbarHeight: 30,
         title: Text(
           AppString.newShop,
@@ -56,7 +58,6 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.search)),
         ],
       ),
-      backgroundColor: Colors.white,
       /// body part
       body: Padding(
         padding: EdgeInsets.all(8.w),

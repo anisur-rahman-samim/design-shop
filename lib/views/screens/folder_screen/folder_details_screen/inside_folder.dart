@@ -35,53 +35,52 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(widget.folderName),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding:  EdgeInsets.symmetric(horizontal: 8.w),
         child: MasonryGridView.count(
           crossAxisCount: 2,
           mainAxisSpacing: 4,
           itemCount: images.length,
           crossAxisSpacing: 4,
           itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.r),
-                  border: Border.all(color: const Color(0xFF54A630),),
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4.r),
+                border: Border.all(color: const Color(0xFF54A630),),
 
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey.shade300,
-                        blurRadius: 10,
-                        spreadRadius: 1,
-                        offset: Offset(0, 0))
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    InkWell(
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                      offset: Offset(0, 0))
+                ],
+              ),
+              child: Stack(
+                children: [
+                  InkWell(
                       onTap: (){
                         productDetailsController.getProductDetailsRepo(
-                            images[index].imageId, images[index].imageName,context,);
+                          images[index].imageId, images[index].imageName,context,);
                       },
-                        child: Image.network(images[index].imagePath)),
-                    Positioned(
+                      child: Image.network(images[index].imagePath)),
+                  Positioned(
                       right: 0,
-                        top: 0,
-                        child: IconButton(
-                        onPressed: ()async {
-                          await _showDeleteConfirmationDialog(context, images[index], images);
-                        },
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        )))
-                  ],
-                ),
+                      top: 0,
+                      child: IconButton(
+                          onPressed: ()async {
+                            await _showDeleteConfirmationDialog(context, images[index],);
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          )))
+                ],
               ),
             );
           },
@@ -91,19 +90,19 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
   }
 
   Future<void> _showDeleteConfirmationDialog(
-      BuildContext context, ImageModel image, List<ImageModel> images) {
+      BuildContext context, ImageModel image,) {
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Delete Image'),
-          content: Text('Are you sure you want to delete this image?'),
+          title: const Text('Delete Image'),
+          content: const Text('Are you sure you want to delete this image?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
@@ -112,12 +111,10 @@ class _ImageListInFolderScreenState extends State<ImageListInFolderScreen> {
                   images = box.values
                       .where((image) => image.folderName == widget.folderName)
                       .toList();
-                  box = Hive.box<ImageModel>('images');
-                    Navigator.of(context).pop();
-
+                  //   box = Hive.box<ImageModel>('images');
 
                 });
-
+                Navigator.of(context).pop();
 
               },
               child: Text('Delete'),

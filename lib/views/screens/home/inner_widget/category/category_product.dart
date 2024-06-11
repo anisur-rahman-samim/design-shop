@@ -21,7 +21,9 @@ class CategoryProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(name, style: TextStyle(color: Color(0xFF54A630)),),
         centerTitle: true,
       ),

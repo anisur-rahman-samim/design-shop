@@ -103,12 +103,15 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
       }
     });
   }
+
+
   @override
   Widget build(BuildContext context) {
     hiveController.cartList();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           widget.name,
           style: const TextStyle(color: Color(0xFF54A630)),
@@ -136,7 +139,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                         ),
                       ),
                       Positioned(
-                        top: 0,
+                          top: 0,
                           right: 0,
                           left: 0,
                           bottom: 0,
@@ -147,13 +150,13 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                               children: [
                                 InkWell(
                                   onTap: (){
-                                   setState(() {
-                                     _decrementCounter();
-                                     productDetailsController.getProductDetailsRepo(
-                                         productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName,context,);
-                                     covered =  PhotoViewComputedScale.covered * 2.0;
-                                     contained =  PhotoViewComputedScale.contained * 0.8;
-                                   });
+                                    setState(() {
+                                      _decrementCounter();
+                                      productDetailsController.getProductDetailsRepo(
+                                        productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName,context,);
+                                      covered =  PhotoViewComputedScale.covered * 2.0;
+                                      contained =  PhotoViewComputedScale.contained * 0.8;
+                                    });
                                   },
                                   child: Container(
                                     height: 30,
@@ -167,15 +170,15 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                                 ),
                                 InkWell(
                                   onTap: (){
-                                   setState(() {
-                                     _incrementCounter();
-                                     productDetailsController.getProductDetailsRepo(
-                                         productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName,context,);
+                                    setState(() {
+                                      _incrementCounter();
+                                      productDetailsController.getProductDetailsRepo(
+                                        productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName,context,);
 
-                                     covered =  PhotoViewComputedScale.covered * 2.0;
-                                     contained =  PhotoViewComputedScale.contained * 0.8;
+                                      covered =  PhotoViewComputedScale.covered * 2.0;
+                                      contained =  PhotoViewComputedScale.contained * 0.8;
 
-                                   });
+                                    });
                                   },
                                   child: Container(
                                     height: 30,
@@ -195,20 +198,18 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                   )),
             ),
             SizedBox(height: 16.h),
-            Obx(
-                  () =>
-              isInfo.value
-                  ? SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      /*  CustomText(
+            isInfo.value
+                ? SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    /*  CustomText(
                                 title:
                                     "Design Name : ${productDetailsController.productDetails_Model!.data!.attributes!.productName!}",
                                 fontSize: 18,
@@ -217,175 +218,74 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                             const SizedBox(
                               height: 4,
                             ),*/
-                      Row(
-                        children: [
-                          CustomText(
-                              title:
-                              "Price : ${productDetailsController
-                                  .productDetails_Model!.data!.attributes!
-                                  .productPrice!} ",
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFF54A630)),
-                          SvgPicture.asset(AppIcon.bdTK,
-                              height: 14.h, color: const Color(0xFF54A630)),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            title: AppString.description,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFF54A630),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      SizedBox(
-                        height: 30,
-                        child: ListView.builder(
+                    Row(
+                      children: [
+                        CustomText(
+                            title:
+                            "Price : ${productDetailsController
+                                .productDetails_Model!.data!.attributes!
+                                .productPrice!} ",
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF54A630)),
+                        SvgPicture.asset(AppIcon.bdTK,
+                            height: 14.h, color: const Color(0xFF54A630)),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(
+                          title: AppString.description,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF54A630),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    SizedBox(
+                      height: 30,
+                      child: ListView.builder(
                           itemCount: productDetailsController
                               .productDetails_Model!
                               .data!
                               .attributes!
                               .productDescription!.length,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context,index){
-                              return CustomMultiLineText(
-                                title: productDetailsController
-                                    .productDetails_Model!
-                                    .data!
-                                    .attributes!
-                                    .productDescription![index],
-                              );
-                            }
-                        ),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context,index){
+                            return CustomMultiLineText(
+                              title: productDetailsController
+                                  .productDetails_Model!
+                                  .data!
+                                  .attributes!
+                                  .productDescription![index],
+                            );
+                          }
                       ),
-                      const SizedBox(
-                        height: 14,
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 14,
+                    ),
+                  ],
                 ),
-              )
-                  : SizedBox(),
-            ),
+              ),
+            )
+                : SizedBox(),
             const SizedBox(
               height: 12,
             ),
           ],
         ),
       ),
-/*      bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              label: "",
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 14.0),
-                child: IconButton(
-                    onPressed: () {
-                      _showDialog(context,
-                          productDetailsController.productDetails_Model!.data!
-                              .attributes!.productImage!,productDetailsController.productDetails_Model!.data!
-                              .attributes!.sId!, productDetailsController.productDetails_Model!.data!
-                              .attributes!.productName!);
-                    },
-                    icon: Container(
-                        height: 40,
-                        width: 60,
-                        decoration: BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: const Icon(
-                          Icons.create_new_folder_outlined,
-                          color: Color(0xFF54A630),
-                        ))),
-              ),),
 
-            BottomNavigationBarItem(label: "", icon: IconButton(
-                onPressed: () {
-                  NotesModel notesModel = NotesModel(
-                      title: widget.name,
-                      description: productDetailsController
-                          .productDetails_Model!
-                          .data!
-                          .attributes!
-                          .productDescription![0],
-                      image: productDetailsController.productDetails_Model!
-                          .data!.attributes!.productImage!,
-                      price: productDetailsController
-                          .productDetails_Model!.data!.attributes!.productPrice
-                          .toString());
-
-                  hiveController.addToCart(notesModel);
-                },
-                icon: Container(
-                    height: 40,
-                    width: 60,
-                    decoration: BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    child: Obx(() =>
-                        Icon(
-                          hiveController.isCartAdded.contains(widget.name)
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: Color(0xFF54A630),
-                        )))),),
-            BottomNavigationBarItem(label: "", icon: IconButton(
-                onPressed: () {
-                  productDetailsController.downloadImage(
-                      productDetailsController.productDetails_Model!.data!
-                          .attributes!.productImage!);
-                },
-                icon: Container(
-                  height: 40,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.black12,
-                      borderRadius: BorderRadius.circular(10)
-                    ),
-                    child: const Icon(
-                      Icons.download_rounded,
-                      color: Color(0xFF54A630),
-                    ))),),
-            BottomNavigationBarItem(label: "", icon: Padding(
-              padding: const EdgeInsets.only(left: 14.0),
-              child: IconButton(
-                  onPressed: () {
-                    if (isInfo.value == true) {
-                      isInfo.value = false;
-                    } else {
-                      isInfo.value = true;
-                    }
-                  },
-                  icon: Container(
-                    height: 40,
-                    width: 60,
-                    decoration: BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                      child: const Icon(
-                        Icons.info_outline,
-                        color: Color(0xFF54A630),
-                      ),),
-              ),
-            ),)
-
-          ]
-      ),*/
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: const Color(0xFFFFFFFF),
