@@ -19,11 +19,9 @@ import '../../widgets/custom_text.dart';
 import '../home/function/create_folder_dailog.dart';
 
 class DetailsProductScreen extends StatefulWidget {
- final String id;
- final String name;
-  DetailsProductScreen({super.key, this.name = "",this.id = ""});
-
-
+  final String id;
+  final String name;
+  DetailsProductScreen({super.key, this.name = "", this.id = ""});
 
   @override
   State<DetailsProductScreen> createState() => _DetailsProductScreenState();
@@ -43,11 +41,12 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
   Get.put(SearchScreenController());
 
   int _counter = 0;
-
   int _selectedIndex = 0;
 
-  var contained =  PhotoViewComputedScale.contained * 0.8;
-  var covered =  PhotoViewComputedScale.covered * 2.0;
+  var contained = PhotoViewComputedScale.contained * 0.8;
+  var covered = PhotoViewComputedScale.covered * 2.0;
+
+  PageController _pageController = PageController();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -55,31 +54,29 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
     });
 
     if (index == 0) {
-          _showDialog(context,
-              productDetailsController.productDetails_Model!.data!
-                  .attributes!.productImage!,productDetailsController.productDetails_Model!.data!
-                  .attributes!.sId!, productDetailsController.productDetails_Model!.data!
-                  .attributes!.productName!);
-    }else if (index == 1){
+      _showDialog(
+          context,
+          productDetailsController.productDetails_Model!.data!.attributes!
+              .productImage!,
+          productDetailsController.productDetails_Model!.data!.attributes!.sId!,
+          productDetailsController.productDetails_Model!.data!.attributes!
+              .productName!);
+    } else if (index == 1) {
       NotesModel notesModel = NotesModel(
           title: widget.name,
-          description: productDetailsController
-              .productDetails_Model!
-              .data!
-              .attributes!
-              .productDescription![0],
-          image: productDetailsController.productDetails_Model!
-              .data!.attributes!.productImage!,
-          price: productDetailsController
-              .productDetails_Model!.data!.attributes!.productPrice
+          description: productDetailsController.productDetails_Model!.data!
+              .attributes!.productDescription![0],
+          image: productDetailsController.productDetails_Model!.data!.attributes!
+              .productImage!,
+          price: productDetailsController.productDetails_Model!.data!.attributes!
+              .productPrice
               .toString());
 
       hiveController.addToCart(notesModel);
-    }else if (index == 2){
-      productDetailsController.downloadImage(
-          productDetailsController.productDetails_Model!.data!
-              .attributes!.productImage!);
-    }else if (index == 3){
+    } else if (index == 2) {
+      productDetailsController.downloadImage(productDetailsController
+          .productDetails_Model!.data!.attributes!.productImage!);
+    } else if (index == 3) {
       if (isInfo.value == true) {
         isInfo.value = false;
       } else {
@@ -87,6 +84,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
       }
     }
   }
+
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -103,7 +101,6 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -126,76 +123,39 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
           children: [
             Expanded(
               child: Center(
-                  child: Stack(
-                    children: [
-                      PhotoView(
-                        imageProvider: NetworkImage(productDetailsController
-                            .productDetails_Model!.data!.attributes!.productImage!),
-                        minScale: contained,
-                        maxScale: covered,
-                        enableRotation: true,
-                        backgroundDecoration: const BoxDecoration(
-                          color: Colors.white,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: productController.product_model!.data!.attributes!.length,
+                  onPageChanged: (index) {
+                    setState(() {
+                      _counter = index;
+                      productDetailsController.getProductDetailsRepo(
+                        productController.product_model!.data!.attributes![index].sId.toString(),
+                        productController.product_model!.data!.attributes![index].productName,
+                        context,
+                      );
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    return Stack(
+                      children: [
+                        PhotoView(
+                          imageProvider: NetworkImage(
+                            productDetailsController
+                                .productDetails_Model!.data!.attributes!.productImage!,
+                          ),
+                          minScale: contained,
+                          maxScale: covered,
+                          enableRotation: true,
+                          backgroundDecoration: const BoxDecoration(
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      Positioned(
-                          top: 0,
-                          right: 0,
-                          left: 0,
-                          bottom: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                InkWell(
-                                  onTap: (){
-                                    setState(() {
-                                      _decrementCounter();
-                                      productDetailsController.getProductDetailsRepo(
-                                        productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName,context,);
-                                      covered =  PhotoViewComputedScale.covered * 2.0;
-                                      contained =  PhotoViewComputedScale.contained * 0.8;
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white.withOpacity(0.5),
-                                    ),
-                                    child: Center(child: Icon(Icons.arrow_back_ios,color: Colors.black,),),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: (){
-                                    setState(() {
-                                      _incrementCounter();
-                                      productDetailsController.getProductDetailsRepo(
-                                        productController.product_model!.data!.attributes![_counter].sId.toString(),  productController.product_model!.data!.attributes![_counter].productName,context,);
-
-                                      covered =  PhotoViewComputedScale.covered * 2.0;
-                                      contained =  PhotoViewComputedScale.contained * 0.8;
-
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white.withOpacity(0.5),
-                                    ),
-                                    child: Center(child: Icon(Icons.arrow_forward_ios_sharp,color: Colors.black,),),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                      )
-                    ],
-                  )),
+                      ],
+                    );
+                  },
+                ),
+              ),
             ),
             SizedBox(height: 16.h),
             isInfo.value
@@ -209,22 +169,11 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                     const SizedBox(
                       height: 5,
                     ),
-                    /*  CustomText(
-                                title:
-                                    "Design Name : ${productDetailsController.productDetails_Model!.data!.attributes!.productName!}",
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                                color: const Color(0xFF54A630)),
-                            const SizedBox(
-                              height: 4,
-                            ),*/
                     Row(
                       children: [
                         CustomText(
                             title:
-                            "Price : ${productDetailsController
-                                .productDetails_Model!.data!.attributes!
-                                .productPrice!} ",
+                            "Price : ${productDetailsController.productDetails_Model!.data!.attributes!.productPrice!} ",
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFF54A630)),
@@ -257,10 +206,11 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                               .productDetails_Model!
                               .data!
                               .attributes!
-                              .productDescription!.length,
+                              .productDescription!
+                              .length,
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemBuilder: (context,index){
+                          itemBuilder: (context, index) {
                             return CustomMultiLineText(
                               title: productDetailsController
                                   .productDetails_Model!
@@ -268,8 +218,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                                   .attributes!
                                   .productDescription![index],
                             );
-                          }
-                      ),
+                          }),
                     ),
                     const SizedBox(
                       height: 14,
@@ -285,59 +234,60 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
           ],
         ),
       ),
-
       bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: const Color(0xFFFFFFFF),
-          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-          selectedItemColor: Colors.greenAccent,
-          unselectedItemColor: const Color(0xFF939393),
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-
-          // unselectedItemColor: Colors.black,
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items:  [
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.create_new_folder_outlined,
-                  color: Colors.black26,
-                ),
-                label: ""),
-            BottomNavigationBarItem(
-                icon: Obx(() => Icon(
-                  hiveController.isCartAdded.contains(widget.name)
-                      ? Icons.favorite
-                      : Icons.favorite_border,
-                  color: Color(0xFF54A630),
-                ),),
-                label: ""),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.download_rounded,
-                  color: Colors.black26,
-                ),
-                label: ""),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.info_outline,
-                  color: Colors.black38,
-                ),
-                label: ""),
-          ]),
-
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: const Color(0xFFFFFFFF),
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+        selectedItemColor: Colors.greenAccent,
+        unselectedItemColor: const Color(0xFF939393),
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.create_new_folder_outlined,
+              color: Colors.black26,
+            ),
+            label: "",
+          ),
+          BottomNavigationBarItem(
+            icon: Obx(
+                  () => Icon(
+                hiveController.isCartAdded.contains(widget.name)
+                    ? Icons.favorite
+                    : Icons.favorite_border,
+                color: Color(0xFF54A630),
+              ),
+            ),
+            label: "",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.download_rounded,
+              color: Colors.black26,
+            ),
+            label: "",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.info_outline,
+              color: Colors.black38,
+            ),
+            label: "",
+          ),
+        ],
+      ),
     );
   }
 
-   _showDialog(BuildContext context, String imagePath, String imageId, String imageName) {
+  _showDialog(BuildContext context, String imagePath, String imageId, String imageName) {
     var folderController = TextEditingController();
     final _noteController = TextEditingController();
 
     final box = Hive.box<ImageModel>('images');
-    final folders = box.values.map((image) => image.folderName)
-        .toSet()
-        .toList();
+    final folders = box.values.map((image) => image.folderName).toSet().toList();
 
     showDialog(
       context: context,
@@ -355,19 +305,15 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                 children: [
                   Text(
                     'Save Image',
-
                   ),
                   SizedBox(height: 16.0),
                   Container(
-                    height: 67,
-                    child: Autocomplete<String>(
+                    height: 56.0,
+                    width: Get.width / 1.4,
+                    child: RawAutocomplete<String>(
                       optionsBuilder: (TextEditingValue textEditingValue) {
-                        if (textEditingValue.text.isEmpty) {
-                          return const Iterable<String>.empty();
-                        }
-                        return folders.where((folder) => folder
-                            .toLowerCase()
-                            .contains(textEditingValue.text.toLowerCase()));
+                        return folders.where((String option) =>
+                            option.toLowerCase().contains(textEditingValue.text.toLowerCase()));
                       },
                       onSelected: (String selection) {
                         folderController.text = selection;
@@ -396,8 +342,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                                 padding: EdgeInsets.all(8.0),
                                 itemCount: options.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  final String option =
-                                  options.elementAt(index);
+                                  final String option = options.elementAt(index);
                                   return GestureDetector(
                                     onTap: () {
                                       onSelected(option);
@@ -451,10 +396,12 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                                   note, imageId, imageName);
                               box.add(newImage);
 
-                            Get.snackbar("Successfully", "Folder create successfully done",);
+                              Get.snackbar(
+                                "Successfully",
+                                "Folder create successfully done",
+                              );
 
                               Navigator.of(context).pop();
-
                             }
                           }
                         },
@@ -469,9 +416,5 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
         );
       },
     );
-
-
-
   }
-
 }
