@@ -9,6 +9,7 @@ class HomeController extends GetxController {
   RxInt index = 0.obs;
 
   SilderModel? silderModel;
+  var isScrolling = false.obs;
 
   RxBool isLoading = false.obs;
 

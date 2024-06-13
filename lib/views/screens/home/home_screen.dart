@@ -24,18 +24,38 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   CategoryController categoryController = Get.put(CategoryController());
-
   ProductController productController = Get.put(ProductController());
-
   HomeController homeController = Get.put(HomeController());
-
+  final RecentProductGirdView recentProductGirdView = Get.put(RecentProductGirdView());
 
   ScrollController scrollController = ScrollController();
+  GlobalKey categoryKey = GlobalKey();
 
   @override
   void initState() {
     homeController.getSliderRepo();
+    scrollController.addListener(_onScroll);
     super.initState();
+  }
+
+  void _onScroll() {
+    if (categoryKey.currentContext != null) {
+      RenderBox renderBox = categoryKey.currentContext!.findRenderObject() as RenderBox;
+      Offset offset = renderBox.localToGlobal(Offset.zero);
+      double appBarHeight = AppBar().preferredSize.height;
+      if (offset.dy <=  180.h) {
+        homeController.isScrolling.value = true;
+    //    print(appBarHeight);
+     //   print(homeController.isScrolling.value);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    scrollController.removeListener(_onScroll);
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -53,30 +73,34 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
               onPressed: () {
                 Get.to(SearchScreen());
-                // Get.to(ProductSearchPage());
               },
               icon: const Icon(Icons.search)),
         ],
       ),
-      /// body part
       body: Padding(
         padding: EdgeInsets.all(8.w),
         child: ListView(
-         // crossAxisAlignment: CrossAxisAlignment.start,
           controller: scrollController,
           children: [
             HomeScreenSilder(),
             Padding(
-                padding: EdgeInsets.only(left: 8.w, top: 10.h),
-                child: const Text(AppString.category,
-                    style: TextStyle(fontSize: 18, color: Color(0xFF54A630)))),
-            CategoryWidget(),
+              padding: EdgeInsets.only(left: 8.w, top: 10.h),
+              child: const Text(
+                AppString.category,
+                style: TextStyle(fontSize: 18, color: Color(0xFF54A630)),
+              ),
+            ),
+            CategoryWidget(key: categoryKey),
             Padding(
-                padding: EdgeInsets.only(left: 8.w),
-                child: const Text(AppString.recentProduct,
-                    style: TextStyle(fontSize: 18, color: Color(0xFF54A630)))),
-
-            SizedBox(child: RecentProductGirdView()),
+              padding: EdgeInsets.only(left: 8.w),
+              child: const Text(
+                AppString.recentProduct,
+                style: TextStyle(fontSize: 18, color: Color(0xFF54A630)),
+              ),
+            ),
+            SizedBox(
+                height: Get.height / 1.68,
+                child: RecentProductGirdView()),
           ],
         ),
       ),

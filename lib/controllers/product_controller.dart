@@ -7,6 +7,8 @@ import 'package:shop/utils/app_url/app_urls.dart';
 
 class ProductController extends GetxController{
 
+
+
   Product_model? product_model;
   RxBool isLoading = false.obs;
 

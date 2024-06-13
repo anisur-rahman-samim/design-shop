@@ -237,11 +237,11 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: const Color(0xFFFFFFFF),
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+       // selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         selectedItemColor: Colors.greenAccent,
         unselectedItemColor: const Color(0xFF939393),
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: [
@@ -250,7 +250,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
               Icons.create_new_folder_outlined,
               color: Colors.black26,
             ),
-            label: "",
+            label: "Folder",
           ),
           BottomNavigationBarItem(
             icon: Obx(
@@ -261,21 +261,21 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                 color: Color(0xFF54A630),
               ),
             ),
-            label: "",
+            label: "Favorite",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.download_rounded,
               color: Colors.black26,
             ),
-            label: "",
+            label: "Download",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.info_outline,
               color: Colors.black38,
             ),
-            label: "",
+            label: "Info",
           ),
         ],
       ),
@@ -359,6 +359,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                       },
                     ),
                   ),
+                  SizedBox(height: 10,),
                   TextField(
                     controller: _noteController,
                     maxLines: 3,
