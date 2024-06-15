@@ -51,7 +51,7 @@ class FolderScreen extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => ImageListInFolderScreen(folderName: folders[index]),
+                    builder: (context) => ImageListInFolderScreen(folderName: folders[index],note: note[index],),
                   ),
                 );
               },
@@ -91,14 +91,14 @@ class FolderScreen extends StatelessWidget {
                                    fontSize: 14,
                                    color: Colors.white),
                              ),),
-                             Text(
+                          /*   Text(
                                "Note: ${note[index]}",
                                overflow: TextOverflow.ellipsis,
                                maxLines: 1,
                                style: const TextStyle(
                                    fontSize: 12,
                                    color: Colors.white),
-                             ),
+                             ),*/
                            ],
                          ),
                          /* child: Column(
@@ -171,12 +171,12 @@ class FolderScreen extends StatelessWidget {
                 controller: _folderController,
                 decoration: InputDecoration(labelText: 'Folder Name'),
               ),
-              SizedBox(height: 10,),
+             /* SizedBox(height: 10,),
               TextField(
                 controller: _noteController,
                 maxLines: 3,
                 decoration: InputDecoration(labelText: 'Note'),
-              ),
+              ),*/
             ],
           ),
           actions: [
@@ -189,11 +189,9 @@ class FolderScreen extends StatelessWidget {
             TextButton(
               onPressed: ()async {
                 final newFolderName = _folderController.text;
-                final newNote = _noteController.text;
 
-                if (newFolderName.isNotEmpty && newNote.isNotEmpty) {
+                if (newFolderName.isNotEmpty) {
                   for (var image in imagesInFolder) {
-                    image.note = newNote;
                     image.folderName = newFolderName;
 
                    await image.save();
