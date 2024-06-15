@@ -258,7 +258,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                 hiveController.isCartAdded.contains(widget.name)
                     ? Icons.favorite
                     : Icons.favorite_border,
-                color: Color(0xFF54A630),
+                    color: hiveController.isCartAdded.contains(widget.name) ? Color(0xFF54A630) : Colors.black26,
               ),
             ),
             label: "Favorite",

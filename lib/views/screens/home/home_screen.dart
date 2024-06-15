@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(
-                height: Get.height / 1.68,
+                height: Get.height / 1.58,
                 child: RecentProductGirdView()),
           ],
         ),
